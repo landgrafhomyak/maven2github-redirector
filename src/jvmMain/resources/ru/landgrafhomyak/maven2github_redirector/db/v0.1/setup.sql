@@ -1,11 +1,11 @@
 CREATE TABLE groups
 (
-    id     INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
-    name   TEXT    NOT NULL,
-    parent INTEGER,
+    id        INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
+    full_name TEXT    NOT NULL,
+    parent    INTEGER,
 
     FOREIGN KEY (parent) REFERENCES groups (id),
-    UNIQUE (name, parent)
+    UNIQUE (full_name, parent)
 );
 
 CREATE TABLE packages
@@ -25,30 +25,29 @@ CREATE TABLE packages
 
 CREATE TABLE package_versions
 (
-    id                    INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
-    package               INTEGER NOT NULL,
-    version               TEXT    NOT NULL,
-    version_ordinal       INTEGER NOT NULL,
-    download_prefix_link  TEXT    NOT NULL,
-    release_notes         TEXT             DEFAULT NULL,
-    git_repo_commit_link  TEXT             DEFAULT NULL,
-    link_to_maven_central TEXT             DEFAULT NULL,
-    forbidden_to_use      INTEGER NOT NULL DEFAULT FALSE,
+    id                        INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
+    package                   INTEGER NOT NULL,
+    version                   TEXT    NOT NULL,
+    publishing_unix_timestamp INTEGER NOT NULL,
+    download_prefix_link      TEXT    NOT NULL,
+    release_notes             TEXT             DEFAULT NULL,
+    git_repo_commit_link      TEXT             DEFAULT NULL,
+    link_to_maven_central     TEXT             DEFAULT NULL,
+    forbidden_to_use          INTEGER NOT NULL DEFAULT FALSE,
 
     FOREIGN KEY (package) REFERENCES packages (id),
-    UNIQUE (package, version),
-    UNIQUE (package, version, version_ordinal)
+    UNIQUE (package, version)
 );
 
 CREATE TABLE backward_compatibilities
 (
-    newer_version      INTEGER NOT NULL,
-    compatibility_with INTEGER NOT NULL,
+    version         INTEGER NOT NULL,
+    compatible_with INTEGER NOT NULL,
 
-    UNIQUE (newer_version, compatibility_with),
-    FOREIGN KEY (newer_version) REFERENCES package_versions (id),
-    FOREIGN KEY (compatibility_with) REFERENCES package_versions (id),
-    CHECK ( newer_version != compatibility_with )
+    UNIQUE (version, compatible_with),
+    FOREIGN KEY (version) REFERENCES package_versions (id),
+    FOREIGN KEY (compatible_with) REFERENCES package_versions (id),
+    CHECK ( version != compatible_with )
 );
 
 CREATE TABLE local_dependencies

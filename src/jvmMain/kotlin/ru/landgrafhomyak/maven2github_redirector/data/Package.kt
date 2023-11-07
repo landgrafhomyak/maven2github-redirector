@@ -1,5 +1,6 @@
 package ru.landgrafhomyak.maven2github_redirector.data
 
+
 public interface Package {
     public val name: String
     public val group: Group
@@ -9,8 +10,9 @@ public interface Package {
     public val gitRepoLink: String?
     public val mavenCentralLink: String?
 
-    public fun findVersion(v: String): PackageVersion?
+    public interface WithVersions : Package, AutoCloseable {
+        public val versions: Iterable<PackageVersion>
 
-    public fun getAllVersionDescending(): Sequence<PackageVersion>
-    public fun getAllVersionAscending(): Sequence<PackageVersion>
+        public val topVersions: Iterable<PackageVersion>
+    }
 }
