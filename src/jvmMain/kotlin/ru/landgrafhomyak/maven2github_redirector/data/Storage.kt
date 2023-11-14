@@ -1,9 +1,23 @@
 package ru.landgrafhomyak.maven2github_redirector.data
 
 public interface Storage {
-    public fun findGroup(vararg packageLevels: String): Group.WithPackages?
+    public interface PackagesIterator : StorageIterator<Package>, AutoCloseable {
+        @Throws(StorageException::class)
+        override fun close()
+    }
 
-    public fun findPackage(vararg packageLevels: String, packageName: String): Package.WithVersions?
+    @Throws(StorageException::class)
+    public fun getAllPackages():PackagesIterator
 
-    public fun findPackageVersion(vararg packageLevels: String, packageName: String, version: String): PackageVersion.WithCompatibilities?
+    @Throws(StorageException::class)
+    public fun findGroupWithPackages(vararg packageLevels: String): Group.WithPackages?
+
+    @Throws(StorageException::class)
+    public fun findPackageWithVersions(vararg packageLevels: String, packageName: String): Package.WithVersions?
+
+    @Throws(StorageException::class)
+    public fun findPackageVersionWithCompatibilities(vararg packageLevels: String, packageName: String, version: String): PackageVersion.WithCompatibilities?
+
+    @Throws(StorageException::class)
+    public fun getPackageVersionDownloadLink(vararg packageLevels: String, packageName: String, version: String): String
 }

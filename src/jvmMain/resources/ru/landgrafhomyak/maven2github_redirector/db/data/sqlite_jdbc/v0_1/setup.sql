@@ -61,12 +61,12 @@ CREATE TABLE local_dependencies
     CHECK ( pkg != dependency )
 );
 
-CREATE TABLE db_info
+CREATE TABLE _db_compatible_versions
 (
-    var_name TEXT UNIQUE NOT NULL,
-    value    TEXT        NOT NULL
+    version TEXT NOT NULL UNIQUE
 );
 
-INSERT INTO db_info(var_name, value)
-VALUES ('version', 'v0.1');
+INSERT INTO _db_compatible_versions(version)
+VALUES ('v0.1');
+
 
