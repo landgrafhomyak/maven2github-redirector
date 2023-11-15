@@ -12,7 +12,7 @@ version = "0.1"
 repositories {
     mavenCentral()
 //    maven("http://localhost:8080/") { isAllowInsecureProtocol = true }
-//    maven("https://maven.landgrafhomyak.ru/")
+    maven("https://maven.landgrafhomyak.ru/")
 }
 
 tasks.withType<JavaCompile> {
@@ -79,7 +79,7 @@ kotlin {
         val jvmMain by getting {
             dependsOn(commonMain)
             dependencies {
-//                implementation("ru.landgrafhomyak.utility:java-resource-loader:1.0")
+                implementation("ru.landgrafhomyak.utility:java-resource-loader:1.0")
             }
         }
         val jsMain by getting {
