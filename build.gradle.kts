@@ -11,8 +11,8 @@ version = "0.1"
 
 repositories {
     mavenCentral()
-//    maven("http://localhost:8080/")
-//    maven("maven.landgrafhomyak.ru")
+//    maven("http://localhost:8080/") { isAllowInsecureProtocol = true }
+//    maven("https://maven.landgrafhomyak.ru/")
 }
 
 tasks.withType<JavaCompile> {
@@ -69,8 +69,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.xerial:sqlite-jdbc:3.40.0.0")
-//                implementation("org.json:json:20220924")
-//                implementation("ru.landgrafhomyak:json:10")
             }
         }
         val commonTest by getting {
@@ -80,6 +78,9 @@ kotlin {
         }
         val jvmMain by getting {
             dependsOn(commonMain)
+            dependencies {
+//                implementation("ru.landgrafhomyak.utility:java-resource-loader:1.0")
+            }
         }
         val jsMain by getting {
             dependsOn(commonMain)

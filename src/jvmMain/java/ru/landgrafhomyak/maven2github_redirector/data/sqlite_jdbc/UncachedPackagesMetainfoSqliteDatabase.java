@@ -29,18 +29,17 @@ public class UncachedPackagesMetainfoSqliteDatabase implements PackagesMetainfoD
     @Override
     public String getPackageVersionDownloadLink(@NotNull String group, @NotNull String packageName, @NotNull String version) throws PackagesMetainfoDatabaseException {
         try {
-            ResultSet rs;
             try (PreparedStatement stmt = this.connection.prepareStatement(QueriesV0_1.GET_PACKAGE_VERSION_DOWNLOAD_LINK)) {
                 stmt.setString(1, group);
                 stmt.setString(2, packageName);
                 stmt.setString(3, version);
-                rs = stmt.executeQuery();
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (!rs.next())
+                        return null;
+                    return rs.getString(1);
+                }
             }
-            try (rs) {
-                if (!rs.next())
-                    return null;
-                return rs.getString(1);
-            }
+
         } catch (SQLException ex) {
             throw new PackagesMetainfoDatabaseException("Unexpected SQL exception", ex);
         }

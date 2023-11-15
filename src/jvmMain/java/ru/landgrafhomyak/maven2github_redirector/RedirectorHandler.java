@@ -100,7 +100,8 @@ class RedirectorHandler implements HttpHandler {
                     exchange.close();
                     return;
                 }
-                group.append('.');
+                if (group.length() > 0)
+                    group.append('.');
                 group.append(pkg);
                 pkg = version;
                 version = newLevel;

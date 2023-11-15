@@ -35,10 +35,10 @@ public fun main(argv: Array<String>) {
             return
         }
     }
-    with(DriverManager.getConnection("jdbc:sqlite:${path2db}")) dbConn@{
-        val db = UncachedPackagesMetainfoSqliteDatabase(this@dbConn)
-        val server = HttpServer.create(InetSocketAddress(port.toUInt().toInt()), 0)
-        server.createContext("/", RedirectorHandler(PATH_MAX_LENGTH, db))
-        server.start()
-    }
+
+    val dbConn = DriverManager.getConnection("jdbc:sqlite:${path2db}")
+    val db = UncachedPackagesMetainfoSqliteDatabase(dbConn)
+    val server = HttpServer.create(InetSocketAddress(port.toUInt().toInt()), 0)
+    server.createContext("/", RedirectorHandler(PATH_MAX_LENGTH, db))
+    server.start()
 }
