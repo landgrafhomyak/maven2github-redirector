@@ -11,22 +11,23 @@ version = "0.1"
 
 repositories {
     mavenCentral()
+//    maven("http://localhost:8080/")
 //    maven("maven.landgrafhomyak.ru")
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-    sourceCompatibility = "21"
-    targetCompatibility = "21"
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
 }
 
 java {
-    this.sourceCompatibility = JavaVersion.VERSION_21
-    this.targetCompatibility = JavaVersion.VERSION_21
+    this.sourceCompatibility = JavaVersion.VERSION_11
+    this.targetCompatibility = JavaVersion.VERSION_11
 }
 
 application {
-    mainClass.set("ru.landgrafhomyak.maven2github_redirector.Main")
+    mainClass.set("ru.landgrafhomyak.maven2github_redirector.MainKt")
 }
 
 
@@ -68,8 +69,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.xerial:sqlite-jdbc:3.40.0.0")
-                implementation("org.json:json:20220924")
-//                implementation("ru.landgrafhomyak:json:10   ")
+//                implementation("org.json:json:20220924")
+//                implementation("ru.landgrafhomyak:json:10")
             }
         }
         val commonTest by getting {
